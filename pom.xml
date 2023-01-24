@@ -14,6 +14,8 @@
         <module>discovery</module>
         <module>gateway</module>
         <module>search</module>
+        <module>provider</module>
+        <module>university</module>
     </modules>
 
     <groupId>com.example</groupId>
@@ -32,7 +34,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
             <optional>true</optional>
         </dependency>
 
