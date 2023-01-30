@@ -1,0 +1,3 @@
+[submodule "configrepo"]
+	path = configrepo
+	url = https://github.com/ZMX321/configrepo
