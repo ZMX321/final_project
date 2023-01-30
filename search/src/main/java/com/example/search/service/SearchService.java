@@ -4,5 +4,5 @@ import com.example.search.pojo.entity.BaseResponse;
 
 public interface SearchService {
 
-    public BaseResponse getAllUsersStus();
+    BaseResponse getAllUsersStus();
 }
