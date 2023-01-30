@@ -1,20 +1,14 @@
 package com.example.testspringhibernate.controller;
 
 
-import com.example.testspringhibernate.exception.BusinessException;
-import com.example.testspringhibernate.pojo.dto.StudentDTO;
 import com.example.testspringhibernate.pojo.entity.Student;
 import com.example.testspringhibernate.service.StudentService;
-import com.example.testspringhibernate.utils.BaseResponse;
-import com.example.testspringhibernate.utils.ErrorCode;
-import com.example.testspringhibernate.utils.ResultUtils;
-import com.example.testspringhibernate.utils.SuccessCode;
+import com.example.testspringhibernate.pojo.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/student")
@@ -30,45 +24,46 @@ public class StudentController {
     }
 
     @GetMapping
-    public BaseResponse getAllStu(){
-        List<Student> list = studentService.getAllStu();
-
-        List<StudentDTO> studentDTOS = list.stream().map(e -> new StudentDTO(e))
-                .collect(Collectors.toList());
-
-
-        return ResultUtils.success(studentDTOS);
+    public ResponseEntity getAllStu(){
+        return new ResponseEntity(new BaseResponse(studentService.getAllStu()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public BaseResponse getStuById(@PathVariable String id){
-        Student s = studentService.getStuById(id);
-
-        return ResultUtils.success(new StudentDTO(s)) ;
+    public ResponseEntity getStuById(@PathVariable String id){
+        return new ResponseEntity(new BaseResponse(studentService.getStuById(id)), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/teachers")
+    public ResponseEntity getTeaByStuId(@PathVariable String id){
+        return new ResponseEntity(new BaseResponse(studentService.getTeaByStuId(id)), HttpStatus.OK);
+    }
+
+    @PostMapping("/{s_id}/teacher/{t_id}")
+    public ResponseEntity insertStuAndTea(@PathVariable String s_id, @PathVariable String t_id){
+        String newId = studentService.insertStuAndTea(s_id, t_id);
+        return new ResponseEntity<>(new BaseResponse(newId), HttpStatus.OK);
+    }
+
+
+
     @PostMapping
-    public BaseResponse createNewStu(@RequestBody Student s){
-        if(s.getFirstName() == null || s.getLastName() == null){
-            throw new BusinessException(ErrorCode.WRONG_TYPE);
-        }
+    public ResponseEntity createNewStu(@RequestBody Student s){
         log.info(s.toString());
         String newId = studentService.createNewStudent(s);
         log.info("New User created with Id :" + newId);
-        return ResultUtils.success(SuccessCode.CREATE_USER_SUCCESS);
+        return new ResponseEntity(new BaseResponse(newId), HttpStatus.CREATED);
     }
 
-    @PatchMapping
-    public BaseResponse udpateStuInfo(@RequestBody Student s){
-        studentService.updateStuInfo(s);
-        return ResultUtils.success(SuccessCode.UPDATE_SUCCESS);
+    @PostMapping({"/{id}"})
+    public ResponseEntity udpateStuInfo(@PathVariable String id, @RequestBody Student s){
+        studentService.updateStuInfo(id, s);
+        return new ResponseEntity(new BaseResponse(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public BaseResponse deleteStu(@PathVariable String id){
+    public ResponseEntity deleteStu(@PathVariable String id){
         studentService.deleteStuById(id);
-
-        return ResultUtils.success(SuccessCode.DELETE_SUCCESS);
+        return new ResponseEntity<>(new BaseResponse(), HttpStatus.OK);
     }
 
 

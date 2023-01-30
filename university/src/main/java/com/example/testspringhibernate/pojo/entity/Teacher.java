@@ -1,23 +1,19 @@
 package com.example.testspringhibernate.pojo.entity;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "student")
+@Table(name = "teacher")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,24 +25,20 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "gender")
-    private Integer gender;
-
     @Column(name = "create_time")
     private Date createTime;
 
     @Column(name = "update_time")
     private Date updateTime;
 
-    @Column(name = "is_active")
-    private String isActive;
+    @Column(name = "is_admin")
+    private String isAdmin;
 
-    @Column(name = "is_delete")
+    @Column(name = "is_deleted")
     private String isDelete;
 
-    @OneToMany(mappedBy = "stu", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "tea", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Student_Teacher> student_teacherList;
-
 
     public List<Student_Teacher> getStudent_teacherList() {
         return student_teacherList;
@@ -56,23 +48,16 @@ public class Student {
         this.student_teacherList = student_teacherList;
     }
 
-
-
-
-
     @Override
     public String toString() {
-        return "Student{" +
+        return "Teacher{" +
                 "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", gender=" + gender +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", isActive='" + isActive + '\'' +
+                ", isAdmin='" + isAdmin + '\'' +
                 ", isDelete='" + isDelete + '\'' +
                 '}';
     }
-
-
 }

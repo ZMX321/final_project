@@ -16,6 +16,7 @@
         <module>search</module>
         <module>provider</module>
         <module>university</module>
+        <module>config</module>
     </modules>
 
     <groupId>com.example</groupId>
@@ -76,6 +77,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
     </dependencies>
 
